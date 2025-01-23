@@ -296,7 +296,7 @@ export default function UpdatePolicy() {
         }
       });
     };
-  }, [id]);
+  }, [policy]);
 
   return (
     <div
@@ -736,7 +736,7 @@ export default function UpdatePolicy() {
                                     .split(/[/\\]/)
                                     .pop()}
                                   data-bs-title={policy.policyAttachment
-                                    .split(/[/\\]/)
+                                    .split("/")
                                     .pop()}
                                 >
                                   <i

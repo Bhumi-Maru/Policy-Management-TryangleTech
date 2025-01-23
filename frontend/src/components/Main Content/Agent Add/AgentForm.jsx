@@ -319,6 +319,26 @@ export default function AgentForm() {
                         required
                       />
                     </div>
+                    {/* Area */}
+                    <div className="col-md-4">
+                      <label
+                        htmlFor="inputArea"
+                        className="form-label"
+                        style={{ fontSize: "13px", fontWeight: "bold" }}
+                      >
+                        Area
+                      </label>
+                      <input
+                        name="area"
+                        type="text"
+                        value={formData.area}
+                        onChange={handleInputChange}
+                        className="form-control"
+                        id="inputArea"
+                        placeholder="Enter your Area"
+                        required
+                      />
+                    </div>
                     {/* State */}
                     <div className="col-md-4">
                       <label
@@ -356,26 +376,7 @@ export default function AgentForm() {
                         required
                       />
                     </div>
-                    {/* Area */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="inputArea"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        Area
-                      </label>
-                      <input
-                        name="area"
-                        type="text"
-                        value={formData.area}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        id="inputArea"
-                        placeholder="Enter your Area"
-                        required
-                      />
-                    </div>
+
                     {/* Zip */}
                     <div className="col-md-4">
                       <label
