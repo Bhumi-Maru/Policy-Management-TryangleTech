@@ -29,6 +29,7 @@ import Notification from "./components/Navbar/Notification";
 export default function App() {
   const [activeItem, setActiveItem] = useState("");
   const [clients, setClients] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const handleAddClient = (clientData) => {
     setClients((prevClients) => [...prevClients, clientData]);
@@ -37,11 +38,25 @@ export default function App() {
   const handleMenuClick = (itemName) => {
     setActiveItem(itemName);
   };
+
+  // Toggle Sidebar
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
   return (
     <>
       <Router>
-        <Navbar activeItem={activeItem} handleMenuClick={handleMenuClick} />
-        <SideBar handleMenuClick={handleMenuClick} activeItem={activeItem} />
+        <Navbar
+          activeItem={activeItem}
+          handleMenuClick={handleMenuClick}
+          toggleSidebar={toggleSidebar}
+          isSidebarOpen={isSidebarOpen}
+        />
+        <SideBar
+          handleMenuClick={handleMenuClick}
+          activeItem={activeItem}
+          isSidebarOpen={isSidebarOpen}
+        />
 
         <div
           style={{
@@ -51,69 +66,97 @@ export default function App() {
             // zIndex: "-1",
           }}
         >
-          <Routes>
-            {/* Notification */}
-            <Route
-              path="/notification"
-              element={<Notification activeItem={activeItem} />}
-            />
-            {/* Dashboard */}
-            <Route
-              path="/dashboard"
-              element={<Dashboard handleMenuClick={handleMenuClick} />}
-            />
-            {/* client */}
-            <Route path="/client-add" element={<ClientForm />} />
-            <Route path="/client-update-form/:id" element={<ClientUpdate />} />
-            <Route
-              path="/client"
-              element={
-                <ClientTable
-                  activeItem={activeItem}
-                  handleMenuClick={handleMenuClick}
-                  clients={clients}
-                />
-              }
-            />
-            {/* company */}
-            <Route
-              path="/company"
-              element={<CompanyTable handleMenuClick={handleMenuClick} />}
-            />
-            {/* policy category */}
-            <Route path="/policy-category" element={<PolicyCategoryTable />} />
-            <Route
-              path="/policy-category/main-category"
-              element={<MainCategoryTable handleMenuClick={handleMenuClick} />}
-            />
-            <Route
-              path="/policy-category/sub-category"
-              element={<SubCategoryTable handleMenuClick={handleMenuClick} />}
-            />
-            <Route path="/policy-category-form" element={<PolicyCategory />} />
-            <Route path="/policy-add" element={<PolicyForm />} />
-            <Route path="/policy-update-form/:id" element={<UpdatePolicy />} />
-            <Route
-              path="/policy"
-              element={<PolicyTable handleMenuClick={handleMenuClick} />}
-            />
-            <Route
-              path="/user-creation"
-              element={<UserCreationTable handleMenuClick={handleMenuClick} />}
-            />
-            <Route path="/user-creation-form" element={<UserCreationForm />} />
-            <Route path="/user-update-form/:id" element={<UserUpdate />} />
-            <Route
-              path="/agent"
-              element={<AgentTable handleMenuClick={handleMenuClick} />}
-            />
-            <Route path="/agent-add" element={<AgentAdd />} />
-            <Route path="/agent-update-form/:id" element={<UpdateAgent />} />
-            {/* Authentication */}
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/signin" element={<Signin />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-          </Routes>
+          <div
+            className="page-content"
+            style={{
+              left: isSidebarOpen ? "265px" : "0px",
+              position: "relative",
+              width: isSidebarOpen ? "80%" : "100%",
+            }}
+          >
+            <Routes>
+              {/* Notification */}
+              <Route
+                path="/notification"
+                element={<Notification activeItem={activeItem} />}
+              />
+              {/* Dashboard */}
+              <Route
+                path="/dashboard"
+                element={<Dashboard handleMenuClick={handleMenuClick} />}
+              />
+              {/* client */}
+              <Route path="/client-add" element={<ClientForm />} />
+              <Route
+                path="/client-update-form/:id"
+                element={<ClientUpdate />}
+              />
+              <Route
+                path="/client"
+                element={
+                  <ClientTable
+                    activeItem={activeItem}
+                    handleMenuClick={handleMenuClick}
+                    clients={clients}
+                  />
+                }
+              />
+              {/* company */}
+              <Route
+                path="/company"
+                element={<CompanyTable handleMenuClick={handleMenuClick} />}
+              />
+              {/* policy category */}
+              <Route
+                path="/policy-category"
+                element={<PolicyCategoryTable />}
+              />
+              <Route
+                path="/policy-category/main-category"
+                element={
+                  <MainCategoryTable handleMenuClick={handleMenuClick} />
+                }
+              />
+              <Route
+                path="/policy-category/sub-category"
+                element={<SubCategoryTable handleMenuClick={handleMenuClick} />}
+              />
+              <Route
+                path="/policy-category-form"
+                element={<PolicyCategory />}
+              />
+              <Route path="/policy-add" element={<PolicyForm />} />
+              <Route
+                path="/policy-update-form/:id"
+                element={<UpdatePolicy />}
+              />
+              <Route
+                path="/policy"
+                element={<PolicyTable handleMenuClick={handleMenuClick} />}
+              />
+              <Route
+                path="/user-creation"
+                element={
+                  <UserCreationTable handleMenuClick={handleMenuClick} />
+                }
+              />
+              <Route
+                path="/user-creation-form"
+                element={<UserCreationForm />}
+              />
+              <Route path="/user-update-form/:id" element={<UserUpdate />} />
+              <Route
+                path="/agent"
+                element={<AgentTable handleMenuClick={handleMenuClick} />}
+              />
+              <Route path="/agent-add" element={<AgentAdd />} />
+              <Route path="/agent-update-form/:id" element={<UpdateAgent />} />
+              {/* Authentication */}
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/signin" element={<Signin />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+            </Routes>
+          </div>
         </div>
       </Router>
     </>

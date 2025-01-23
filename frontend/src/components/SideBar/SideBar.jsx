@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import "./SideBar.css";
 import { Link } from "react-router-dom";
 
-export default function SideBar({ activeItem, handleMenuClick }) {
+export default function SideBar({
+  activeItem,
+  handleMenuClick,
+  isSidebarOpen,
+}) {
   const [isPolicyOpen, setIsPolicyOpen] = useState(false);
   const toggleDropdown = () => {
     setIsPolicyOpen(!isPolicyOpen);
@@ -10,7 +14,9 @@ export default function SideBar({ activeItem, handleMenuClick }) {
   return (
     <>
       <div
-        className="app-menu navbar-menu"
+        className={`app-menu navbar-menu ${
+          isSidebarOpen ? "d-block" : "d-none"
+        }`}
         style={{ backgroundColor: "#405189" }}
       >
         <div className="navbar-brand-box">

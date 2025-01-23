@@ -174,310 +174,307 @@ export default function ClientForm() {
   };
 
   return (
-    <div
-      className="page-content"
-      style={{ overflowY: "scroll", height: "100vh" }}
-    >
-      <div
-        className="container-fluid"
-        style={{ left: "120px", position: "relative", width: "80%" }}
-      >
-        <div className="row">
-          <div className="col-xxl-6 col-lg-12">
-            <div className="card">
-              <div className="card-body">
-                <div className="live-preview">
-                  <form onSubmit={handleSubmit} className="row g-3">
-                    {/* First Name */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="inputfirstname4"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        First Name
-                      </label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        id="inputfirstname4"
-                        placeholder="First Name"
-                        required
-                      />
-                      {errors.firstName && (
-                        <span
-                          className="text-danger"
-                          style={{ fontSize: "13px" }}
-                        >
-                          {errors.firstName}
-                        </span>
-                      )}
-                    </div>
-                    {/* Last Name */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="inputlastname4"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        Last Name
-                      </label>
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        id="inputlastname4"
-                        placeholder="Last Name"
-                        required
-                      />
-                      {errors.lastName && (
-                        <span
-                          className="text-danger"
-                          style={{ fontSize: "13px" }}
-                        >
-                          {errors.lastName}
-                        </span>
-                      )}
-                    </div>
-                    {/* Phone Number */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="phonenumberInput"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        name="phoneNumber"
-                        value={formData.phoneNumber}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        placeholder="(+91) 12345 67890"
-                        id="phonenumberInput"
-                        required
-                      />
-                      {errors.phoneNumber && (
-                        <span
-                          className="text-danger"
-                          style={{ fontSize: "13px" }}
-                        >
-                          {errors.phoneNumber}
-                        </span>
-                      )}
-                    </div>
-                    {/* Email */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="inputEmail4"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        id="inputEmail4"
-                        placeholder="Email"
-                        required
-                      />
-                      {errors.email && (
-                        <span
-                          className="text-danger"
-                          style={{ fontSize: "13px" }}
-                        >
-                          {errors.email}
-                        </span>
-                      )}
-                    </div>
-                    {/* Street Address */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="inputAddress"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        Street Address
-                      </label>
-                      <input
-                        type="text"
-                        name="streetAddress"
-                        value={formData.streetAddress}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        id="inputAddress"
-                        placeholder="1234 Main Street"
-                        required
-                      />
-                    </div>
-                    {/* Area */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="inputArea"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        Area
-                      </label>
-                      <input
-                        name="area"
-                        type="text"
-                        value={formData.area}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        id="inputArea"
-                        placeholder="Enter your Area"
-                        required
-                      />
-                    </div>
-                    {/* State */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="inputState"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        State
-                      </label>
-                      <Select
-                        name="state"
-                        options={states}
-                        value={selectedState}
-                        onChange={handleStateChange}
-                        placeholder="Select your state"
-                        required
-                      />
-                    </div>
-                    {/* City */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="inputCity"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        City
-                      </label>
-                      <Select
-                        name="city"
-                        options={cities}
-                        value={selectedCity}
-                        onChange={handleCityChange}
-                        placeholder="Select your city"
-                        isDisabled={!selectedState}
-                        required
-                      />
-                    </div>
-
-                    {/* Zip */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="inputZip"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        Zip
-                      </label>
-                      <input
-                        name="zip"
-                        type="text"
-                        value={formData.zip}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        id="inputZip"
-                        placeholder="Zip code"
-                        required
-                      />
-                      {errors.zip && (
-                        <span
-                          className="text-danger"
-                          style={{ fontSize: "13px" }}
-                        >
-                          {errors.zip}
-                        </span>
-                      )}
-                    </div>
-                    {/* Aadhar Card */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="aadharCard"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        Aadhar Card
-                      </label>
-                      <input
-                        type="file"
-                        name="aadharCard"
-                        onChange={handleFileChange}
-                        className="form-control"
-                        id="aadharCard"
-                        required
-                      />
-                    </div>
-                    {/* PAN Card */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="pan"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        PAN Card
-                      </label>
-                      <input
-                        type="file"
-                        name="pan"
-                        onChange={handleFileChange}
-                        className="form-control"
-                        id="pan"
-                        required
-                      />
-                    </div>
-                    {/* Other Documents */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="otherDocuments"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
-                      >
-                        Other Documents
-                      </label>
-                      <input
-                        type="file"
-                        name="otherDocuments"
-                        onChange={handleFileChange}
-                        className="form-control"
-                        id="otherDocuments"
-                        required
-                        multiple
-                      />
-                    </div>
-                    {/* Submit Button */}
-                    <div
-                      className="col-md-2 position-relative"
-                      style={{ left: "83%" }}
+    // <div
+    //   className="page-content"
+    //   style={{ overflowY: "scroll", height: "100vh" }}
+    // >
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-xxl-6 col-lg-12">
+          <div className="card">
+            <div className="card-body">
+              <div className="live-preview">
+                <form onSubmit={handleSubmit} className="row g-3">
+                  {/* First Name */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="inputfirstname4"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
                     >
-                      <button
-                        type="submit"
-                        className="btn w-100 btn-submit"
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      className="form-control"
+                      id="inputfirstname4"
+                      placeholder="First Name"
+                      required
+                    />
+                    {errors.firstName && (
+                      <span
+                        className="text-danger"
                         style={{ fontSize: "13px" }}
                       >
-                        Submit
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                        {errors.firstName}
+                      </span>
+                    )}
+                  </div>
+                  {/* Last Name */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="inputlastname4"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      className="form-control"
+                      id="inputlastname4"
+                      placeholder="Last Name"
+                      required
+                    />
+                    {errors.lastName && (
+                      <span
+                        className="text-danger"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {errors.lastName}
+                      </span>
+                    )}
+                  </div>
+                  {/* Phone Number */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="phonenumberInput"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      name="phoneNumber"
+                      value={formData.phoneNumber}
+                      onChange={handleInputChange}
+                      className="form-control"
+                      placeholder="(+91) 12345 67890"
+                      id="phonenumberInput"
+                      required
+                    />
+                    {errors.phoneNumber && (
+                      <span
+                        className="text-danger"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {errors.phoneNumber}
+                      </span>
+                    )}
+                  </div>
+                  {/* Email */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="inputEmail4"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="form-control"
+                      id="inputEmail4"
+                      placeholder="Email"
+                      required
+                    />
+                    {errors.email && (
+                      <span
+                        className="text-danger"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {errors.email}
+                      </span>
+                    )}
+                  </div>
+                  {/* Street Address */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="inputAddress"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      Street Address
+                    </label>
+                    <input
+                      type="text"
+                      name="streetAddress"
+                      value={formData.streetAddress}
+                      onChange={handleInputChange}
+                      className="form-control"
+                      id="inputAddress"
+                      placeholder="1234 Main Street"
+                      required
+                    />
+                  </div>
+                  {/* Area */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="inputArea"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      Area
+                    </label>
+                    <input
+                      name="area"
+                      type="text"
+                      value={formData.area}
+                      onChange={handleInputChange}
+                      className="form-control"
+                      id="inputArea"
+                      placeholder="Enter your Area"
+                      required
+                    />
+                  </div>
+                  {/* State */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="inputState"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      State
+                    </label>
+                    <Select
+                      name="state"
+                      options={states}
+                      value={selectedState}
+                      onChange={handleStateChange}
+                      placeholder="Select your state"
+                      required
+                    />
+                  </div>
+                  {/* City */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="inputCity"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      City
+                    </label>
+                    <Select
+                      name="city"
+                      options={cities}
+                      value={selectedCity}
+                      onChange={handleCityChange}
+                      placeholder="Select your city"
+                      isDisabled={!selectedState}
+                      required
+                    />
+                  </div>
+
+                  {/* Zip */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="inputZip"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      Zip
+                    </label>
+                    <input
+                      name="zip"
+                      type="text"
+                      value={formData.zip}
+                      onChange={handleInputChange}
+                      className="form-control"
+                      id="inputZip"
+                      placeholder="Zip code"
+                      required
+                    />
+                    {errors.zip && (
+                      <span
+                        className="text-danger"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {errors.zip}
+                      </span>
+                    )}
+                  </div>
+                  {/* Aadhar Card */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="aadharCard"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      Aadhar Card
+                    </label>
+                    <input
+                      type="file"
+                      name="aadharCard"
+                      onChange={handleFileChange}
+                      className="form-control"
+                      id="aadharCard"
+                      required
+                    />
+                  </div>
+                  {/* PAN Card */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="pan"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      PAN Card
+                    </label>
+                    <input
+                      type="file"
+                      name="pan"
+                      onChange={handleFileChange}
+                      className="form-control"
+                      id="pan"
+                      required
+                    />
+                  </div>
+                  {/* Other Documents */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="otherDocuments"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      Other Documents
+                    </label>
+                    <input
+                      type="file"
+                      name="otherDocuments"
+                      onChange={handleFileChange}
+                      className="form-control"
+                      id="otherDocuments"
+                      required
+                      multiple
+                    />
+                  </div>
+                  {/* Submit Button */}
+                  <div
+                    className="col-md-2 position-relative"
+                    style={{ left: "83%" }}
+                  >
+                    <button
+                      type="submit"
+                      className="btn w-100 btn-submit"
+                      style={{ fontSize: "13px" }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    // </div>
   );
 }

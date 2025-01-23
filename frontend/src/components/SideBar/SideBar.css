@@ -38,3 +38,18 @@
 .menu-dropdown.show {
   display: block;
 }
+
+/* sidebar */
+
+/* Add to your CSS file to animate sidebar visibility */
+.app-menu {
+  transition: transform 0.3s ease-in-out;
+}
+
+.app-menu.d-none {
+  transform: translateX(-100%); /* Hide sidebar */
+}
+
+.app-menu.d-block {
+  transform: translateX(0); /* Show sidebar */
+}
