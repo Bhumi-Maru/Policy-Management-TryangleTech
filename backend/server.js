@@ -11,6 +11,7 @@ const agentRouter = require("./Routes/AgentRoutes");
 const companyRouter = require("./Routes/CompanyRoutes");
 const mainCategoryRouter = require("./Routes/mainCategoryRoute");
 const subCategoryRouter = require("./Routes/subCategoryRoutes");
+const unifiedRouter = require("./Routes/UnifiedRoutes");
 
 dotenv.config();
 
@@ -19,6 +20,10 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// unified Route
+app.use("/api", unifiedRouter);
+//
 
 app.use("/auth", authRouter);
 app.use("/api", clientRoutes);

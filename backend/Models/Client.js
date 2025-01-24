@@ -14,6 +14,7 @@ const clientSchema = new mongoose.Schema({
   pan: { type: String, required: true },
   otherDocuments: { type: [String] },
   status: { type: String },
+  role: { type: [String], enum: ["client", "user", "agent"] },
 });
 
 const Client = mongoose.model("Client", clientSchema);
