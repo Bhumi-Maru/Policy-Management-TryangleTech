@@ -299,15 +299,9 @@ export default function UpdatePolicy() {
   }, [policy]);
 
   return (
-    <div
-      className="page-content"
-      style={{ overflowY: "scroll", height: "100vh" }}
-    >
+    <>
       {/* form 1 */}
-      <div
-        className="container-fluid"
-        style={{ left: "120px", position: "relative", width: "80%" }}
-      >
+      <div className="container-fluid">
         <div className="row">
           <div className="col-xxl-6 col-lg-12">
             <div className="card">
@@ -439,10 +433,7 @@ export default function UpdatePolicy() {
       </div>
 
       {/* form 2 */}
-      <div
-        className="container-fluid"
-        style={{ left: "120px", position: "relative", width: "80%" }}
-      >
+      <div className="container-fluid">
         <div className="row">
           <div className="col-xxl-6 col-lg-12">
             <div className="card">
@@ -695,7 +686,6 @@ export default function UpdatePolicy() {
                                 data-sort="serial number"
                                 style={{ fontSize: ".8rem" }}
                               >
-                                &nbsp; &nbsp; &nbsp;
                                 {index + 1}
                               </td>
                               {/* Issue Date */}
@@ -880,6 +870,6 @@ export default function UpdatePolicy() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -273,7 +273,6 @@ export default function ClientTable({ handleMenuClick }) {
                                 data-sort="serial number"
                                 style={{ fontSize: ".8rem" }}
                               >
-                                &nbsp; &nbsp; &nbsp;
                                 {(currentPage - 1) * rowsPerPage + index + 1}
                               </td>
 

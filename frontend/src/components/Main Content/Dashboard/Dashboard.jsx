@@ -7,6 +7,9 @@ export default function Dashboard({ handleMenuClick }) {
   const [policy, setPolicy] = useState([]);
   const [clients, setClients] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedPolicy, setSelectedPolicy] = useState(null);
+  const [filterOption, setFilterOption] = useState("all");
   const { id } = useParams();
 
   useEffect(() => {
@@ -57,12 +60,51 @@ export default function Dashboard({ handleMenuClick }) {
     };
   }, [policy]);
 
+  const handleView = (policy) => {
+    setSelectedPolicy(policy);
+    const modal = new bootstrap.Modal(document.getElementById("showModal"));
+    modal.show();
+  };
+
+  // Calculate remaining days
+  const calculateDaysLeft = (expiryDate) => {
+    if (!expiryDate) return "No date provided";
+    const expiry = new Date(expiryDate);
+    const today = new Date();
+    const timeDiff = expiry - today;
+    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    return daysLeft >= 0 ? `${daysLeft} Days Remain` : "Expired";
+  };
+
+  // Filter policies based on the filterOption
+  const filterByDaysRemaining = (data) => {
+    const daysLeft = calculateDaysLeft(data.expiryDate);
+    switch (filterOption) {
+      case "All":
+        return daysLeft;
+      case "today":
+        return daysLeft === 0;
+      case "tomorrow":
+        return daysLeft === 1;
+      case "10":
+        return daysLeft > 0 && daysLeft <= 10;
+      case "25":
+        return daysLeft > 10 && daysLeft <= 25;
+      case "50":
+        return daysLeft > 25 && daysLeft <= 50;
+      case "100":
+        return daysLeft > 50 && daysLeft <= 100;
+      default:
+        return true;
+    }
+  };
+
+  // Apply the day filter to filtered data
+  const finalFilteredData = filteredData.filter(filterByDaysRemaining);
+
   return (
     <>
-      {/* <div
-        className="page-content"
-        style={{ left: "265px", position: "relative", width: "80%" }}
-      > */}
+     
       {/* Dashboard */}
       <div className="container-fluid">
         <div className="row">
@@ -92,7 +134,6 @@ export default function Dashboard({ handleMenuClick }) {
                                 data-target="559.25"
                               >
                                 {policy.length}
-                                {/* display how may policy is in a table */}
                               </span>
                             </h4>
                             <Link
@@ -116,7 +157,7 @@ export default function Dashboard({ handleMenuClick }) {
                 {/* card 2 */}
                 <div className="col-lg-4 col-sm-6">
                   <Link
-                    to={`/policy-update-form/${id}`}
+                    to="/notification"
                     onClick={() => handleMenuClick("Upcoming Expiry")}
                   >
                     <div className="card card-animate">
@@ -138,11 +179,11 @@ export default function Dashboard({ handleMenuClick }) {
                                 className="counter-value"
                                 data-target="36894"
                               >
-                                30
+                                {finalFilteredData.length}
                               </span>
                             </h4>
                             <Link
-                              to="/policy"
+                              to="/notification"
                               className="text-decoration-underline"
                               style={{ color: "#405189", fontSize: "13px" }}
                             >
@@ -338,6 +379,15 @@ export default function Dashboard({ handleMenuClick }) {
                                 >
                                   Expiry Date
                                 </th>
+                                {/* Remaining Days */}
+                                <th
+                                  style={{
+                                    fontSize: ".8rem",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  Remaining Days
+                                </th>
                                 {/* policy Attachment */}
                                 <th
                                   style={{
@@ -370,7 +420,7 @@ export default function Dashboard({ handleMenuClick }) {
                                       data-sort="serial number"
                                       style={{ fontSize: ".8rem" }}
                                     >
-                                      &nbsp; &nbsp; &nbsp;
+                                      
                                       {index + 1}
                                     </td>
 
@@ -399,6 +449,14 @@ export default function Dashboard({ handleMenuClick }) {
                                       style={{ fontSize: ".8rem" }}
                                     >
                                       {policy.expiryDate || "N/A"}
+                                    </td>
+
+                                    {/* Remaining days */}
+                                    <td
+                                      className="remaining_days"
+                                      style={{ fontSize: ".8rem" }}
+                                    >
+                                      {calculateDaysLeft(policy.expiryDate)}
                                     </td>
 
                                     {/* Document Link */}
@@ -439,10 +497,8 @@ export default function Dashboard({ handleMenuClick }) {
                                         {/* View Button */}
                                         <div className="view">
                                           <Link
-                                            to="/notification"
-                                            onClick={() =>
-                                              handleMenuClick("Notification")
-                                            }
+                                            to="#"
+                                            onClick={() => handleView(policy)}
                                             style={{ textDecoration: "none" }}
                                           >
                                             <i class="bx bx-show"></i>
@@ -624,7 +680,117 @@ export default function Dashboard({ handleMenuClick }) {
           </div>
         </div>
       </div>
-      {/* </div> */}
+
+      {/* View Detail Modal */}
+      <div
+        className="modal fade"
+        id="showModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header bg-light p-3">
+              <h5
+                className="modal-title"
+                id="exampleModalLabel"
+                style={{ fontSize: "16.25px", color: "#495057" }}
+              >
+                View Detail
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body row d-flex flex-wrap justify-content-center">
+              {selectedPolicy && (
+                <>
+                  {/* policy number */}
+                  <div className="mb-3 col-md-6">
+                    <label
+                      htmlFor="policyNumber-field"
+                      className="form-label"
+                      style={{ fontSize: "13px", color: "#495057" }}
+                    >
+                      Policy Number:
+                    </label>
+                    <input
+                      type="number"
+                      name="policyNumber"
+                      className="form-control"
+                      value={selectedPolicy.policyNumber}
+                    />
+                  </div>
+                  {/* client name */}
+                  <div className="mb-3 col-md-6">
+                    <label
+                      htmlFor="customername-field"
+                      className="form-label"
+                      style={{ fontSize: "13px", color: "#495057" }}
+                    >
+                      Client Name:
+                    </label>
+                    <input
+                      type="text"
+                      name="clientName"
+                      className="form-control"
+                      value={`${selectedPolicy.clientName?.firstName} ${selectedPolicy.clientName?.lastName}`}
+                    />
+                  </div>
+                  {/* company name */}
+                  <div className="mb-3 col-md-6">
+                    <label
+                      htmlFor="companyname-field"
+                      className="form-label"
+                      style={{ fontSize: "13px", color: "#495057" }}
+                    >
+                      Company Name:
+                    </label>
+                    <input
+                      type="text"
+                      name="companyName"
+                      className="form-control"
+                      value={selectedPolicy.companyName?.companyName}
+                    />
+                  </div>
+                  {/* policy name */}
+                  <div className="mb-3 col-md-6">
+                    <label
+                      htmlFor="policyName-field"
+                      className="form-label"
+                      style={{ fontSize: "13px", color: "#495057" }}
+                    >
+                      Policy Name:
+                    </label>
+                    <input
+                      type="text"
+                      name="policyName"
+                      className="form-control"
+                      value={selectedPolicy.subCategory?.subCategoryName}
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-light cancel-btn"
+                data-bs-dismiss="modal"
+                style={{ fontSize: "13px" }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
     </>
   );
 }

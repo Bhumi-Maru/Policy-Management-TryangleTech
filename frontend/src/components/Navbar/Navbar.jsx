@@ -39,11 +39,16 @@ export default function Navbar({
                 id="topnav-hamburger-icon"
                 onClick={toggleSidebar}
               >
-                <span className="hamburger-icon">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </span>
+                <span
+                  style={{
+                    color: "#878a99",
+                    fontWeight: "bold",
+                    fontSize: "22px",
+                  }}
+                  className={
+                    isSidebarOpen ? "ri-menu-2-line" : "fa-solid fa-arrow-right"
+                  }
+                ></span>
               </button>
               <nav aria-label="breadcrumb" style={{ paddingTop: "25px" }}>
                 <ol

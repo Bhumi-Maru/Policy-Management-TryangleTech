@@ -144,14 +144,14 @@ export default function CompanyTable() {
             )
           );
           modal.hide();
-          showDeleteToast("Company deleted successfully!");
+          showSuccessToast("Company deleted successfully!");
         } else {
           const errorData = await response.json();
-          showDeleteToast(`Failed to delete company: ${errorData.message}`);
+          showSuccessToast(`Failed to delete company: ${errorData.message}`);
         }
       } catch (error) {
         console.error("Error deleting company:", error);
-        showDeleteToast("An error occurred while deleting the company.");
+        showSuccessToast("An error occurred while deleting the company.");
       }
     };
 
@@ -161,41 +161,6 @@ export default function CompanyTable() {
 
     deleteButton.addEventListener("click", confirmDeletion);
     closeButton.addEventListener("click", cancelDeletion);
-  };
-
-  const showDeleteToast = (message) => {
-    const toastHTML = `
-      <div class="toast fade show position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1055; background-color: white">
-        <div class="toast-header">
-          <img src="assets/images/logo-sm.png" class="rounded me-2" alt="..." height="20" />
-          <strong class="me-auto">Velzon</strong>
-          <small>Just now</small>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">${message}</div>
-      </div>
-    `;
-    let toastContainer = document.getElementById("toast-container");
-    if (!toastContainer) {
-      toastContainer = document.createElement("div");
-      toastContainer.id = "toast-container";
-      toastContainer.style.position = "fixed";
-      toastContainer.style.top = "1rem";
-      toastContainer.style.right = "1rem";
-      toastContainer.style.zIndex = 1055;
-      document.body.appendChild(toastContainer);
-    }
-    const toastElement = document.createElement("div");
-    toastElement.innerHTML = toastHTML;
-    toastContainer.appendChild(toastElement);
-    const toastInstance = new bootstrap.Toast(
-      toastElement.querySelector(".toast")
-    );
-    toastInstance.show();
-    setTimeout(() => {
-      toastInstance.hide();
-      toastElement.remove();
-    }, 3000);
   };
 
   // Display a success toast message

@@ -113,181 +113,173 @@ export default function UserCreationForm() {
   };
 
   return (
-    <div
-      className="page-content"
-      style={{ overflowY: "scroll", height: "100vh" }}
-    >
-      <div
-        className="container-fluid"
-        style={{ left: "120px", position: "relative", width: "80%" }}
-      >
-        <div className="row">
-          <div className="col-xxl-6 col-lg-12">
-            <div className="card">
-              <div className="card-body">
-                <div className="live-preview">
-                  <form onSubmit={handleSubmit} className="row g-3">
-                    {/* First Name */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="inputfirstname4"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-xxl-6 col-lg-12">
+          <div className="card">
+            <div className="card-body">
+              <div className="live-preview">
+                <form onSubmit={handleSubmit} className="row g-3">
+                  {/* First Name */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="inputfirstname4"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      className="form-control"
+                      id="inputfirstname4"
+                      placeholder="First Name"
+                      required
+                    />
+                    {errors.firstName && (
+                      <span
+                        className="text-danger"
+                        style={{ fontSize: "13px" }}
                       >
-                        First Name
-                      </label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        id="inputfirstname4"
-                        placeholder="First Name"
-                        required
-                      />
-                      {errors.firstName && (
-                        <span
-                          className="text-danger"
-                          style={{ fontSize: "13px" }}
-                        >
-                          {errors.firstName}
-                        </span>
-                      )}
-                    </div>
+                        {errors.firstName}
+                      </span>
+                    )}
+                  </div>
 
-                    {/* Last Name */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="inputlastname4"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
+                  {/* Last Name */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="inputlastname4"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      className="form-control"
+                      id="inputlastname4"
+                      placeholder="Last Name"
+                      required
+                    />
+                    {errors.lastName && (
+                      <span
+                        className="text-danger"
+                        style={{ fontSize: "13px" }}
                       >
-                        Last Name
-                      </label>
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        id="inputlastname4"
-                        placeholder="Last Name"
-                        required
-                      />
-                      {errors.lastName && (
-                        <span
-                          className="text-danger"
-                          style={{ fontSize: "13px" }}
-                        >
-                          {errors.lastName}
-                        </span>
-                      )}
-                    </div>
+                        {errors.lastName}
+                      </span>
+                    )}
+                  </div>
 
-                    {/* Phone Number */}
-                    <div className="col-md-4">
-                      <label
-                        htmlFor="phonenumberInput"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
+                  {/* Phone Number */}
+                  <div className="col-md-4">
+                    <label
+                      htmlFor="phonenumberInput"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      name="phoneNumber"
+                      value={formData.phoneNumber}
+                      onChange={handleInputChange}
+                      className="form-control"
+                      placeholder="(+91) 12345 67890"
+                      id="phonenumberInput"
+                      required
+                    />
+                    {errors.phoneNumber && (
+                      <span
+                        className="text-danger"
+                        style={{ fontSize: "13px" }}
                       >
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        name="phoneNumber"
-                        value={formData.phoneNumber}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        placeholder="(+91) 12345 67890"
-                        id="phonenumberInput"
-                        required
-                      />
-                      {errors.phoneNumber && (
-                        <span
-                          className="text-danger"
-                          style={{ fontSize: "13px" }}
-                        >
-                          {errors.phoneNumber}
-                        </span>
-                      )}
-                    </div>
+                        {errors.phoneNumber}
+                      </span>
+                    )}
+                  </div>
 
-                    {/* Email */}
-                    <div className="col-md-6">
-                      <label
-                        htmlFor="inputEmail4"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
+                  {/* Email */}
+                  <div className="col-md-6">
+                    <label
+                      htmlFor="inputEmail4"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="form-control"
+                      id="inputEmail4"
+                      placeholder="Email"
+                      required
+                    />
+                    {errors.email && (
+                      <span
+                        className="text-danger"
+                        style={{ fontSize: "13px" }}
                       >
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        id="inputEmail4"
-                        placeholder="Email"
-                        required
-                      />
-                      {errors.email && (
-                        <span
-                          className="text-danger"
-                          style={{ fontSize: "13px" }}
-                        >
-                          {errors.email}
-                        </span>
-                      )}
-                    </div>
+                        {errors.email}
+                      </span>
+                    )}
+                  </div>
 
-                    {/* Password */}
-                    <div className="col-md-6">
-                      <label
-                        htmlFor="passwordInput"
-                        className="form-label"
-                        style={{ fontSize: "13px", fontWeight: "bold" }}
+                  {/* Password */}
+                  <div className="col-md-6">
+                    <label
+                      htmlFor="passwordInput"
+                      className="form-label"
+                      style={{ fontSize: "13px", fontWeight: "bold" }}
+                    >
+                      Password
+                    </label>
+                    <input
+                      type="text"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      className="form-control"
+                      placeholder="password"
+                      id="passwordInput"
+                      required
+                    />
+                    {errors.password && (
+                      <span
+                        className="text-danger"
+                        style={{ fontSize: "13px" }}
                       >
-                        Password
-                      </label>
-                      <input
-                        type="text"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        className="form-control"
-                        placeholder="password"
-                        id="passwordInput"
-                        required
-                      />
-                      {errors.password && (
-                        <span
-                          className="text-danger"
-                          style={{ fontSize: "13px" }}
-                        >
-                          {errors.password}
-                        </span>
-                      )}
-                    </div>
+                        {errors.password}
+                      </span>
+                    )}
+                  </div>
 
-                    {/* Submit Button */}
-                    <div className="col-md-12 position-relative">
-                      <button
-                        type="submit"
-                        className="btn btn-submit"
-                        style={{
-                          fontSize: "13px",
-                          width: "167px",
-                          float: "inline-end",
-                        }}
-                      >
-                        Submit
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                  {/* Submit Button */}
+                  <div className="col-md-12 position-relative">
+                    <button
+                      type="submit"
+                      className="btn btn-submit"
+                      style={{
+                        fontSize: "13px",
+                        width: "167px",
+                        float: "inline-end",
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

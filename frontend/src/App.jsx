@@ -61,7 +61,7 @@ export default function App() {
         <div
           style={{
             backgroundColor: "#eff2f7",
-            overflowY: "auto",
+            overflowY: "scroll",
             height: "100vh",
             // zIndex: "-1",
           }}
@@ -72,6 +72,8 @@ export default function App() {
               left: isSidebarOpen ? "265px" : "0px",
               position: "relative",
               width: isSidebarOpen ? "80%" : "100%",
+              overflowY: "scroll",
+              height: "400vh",
             }}
           >
             <Routes>

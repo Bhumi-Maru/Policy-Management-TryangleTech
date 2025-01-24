@@ -174,10 +174,6 @@ export default function ClientForm() {
   };
 
   return (
-    // <div
-    //   className="page-content"
-    //   style={{ overflowY: "scroll", height: "100vh" }}
-    // >
     <div className="container-fluid">
       <div className="row">
         <div className="col-xxl-6 col-lg-12">
@@ -475,6 +471,5 @@ export default function ClientForm() {
         </div>
       </div>
     </div>
-    // </div>
   );
 }

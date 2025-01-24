@@ -155,15 +155,9 @@ export default function PolicyForm() {
   };
 
   return (
-    <div
-      className="page-content"
-      style={{ overflowY: "scroll", height: "100vh" }}
-    >
+    <>
       {/* form */}
-      <div
-        className="container-fluid"
-        style={{ left: "120px", position: "relative", width: "80%" }}
-      >
+      <div className="container-fluid">
         <div className="row">
           <div className="col-xxl-6 col-lg-12">
             <div className="card">
@@ -389,6 +383,6 @@ export default function PolicyForm() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
