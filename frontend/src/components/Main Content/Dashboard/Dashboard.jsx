@@ -104,7 +104,6 @@ export default function Dashboard({ handleMenuClick }) {
 
   return (
     <>
-     
       {/* Dashboard */}
       <div className="container-fluid">
         <div className="row">
@@ -179,7 +178,7 @@ export default function Dashboard({ handleMenuClick }) {
                                 className="counter-value"
                                 data-target="36894"
                               >
-                                {finalFilteredData.length}
+                                {policy.length}
                               </span>
                             </h4>
                             <Link
@@ -411,139 +410,140 @@ export default function Dashboard({ handleMenuClick }) {
                               </tr>
                             </thead>
                             <tbody className="list form-check-all">
-                              {filteredData.length > 0 ? (
-                                filteredData.map((policy, index) => (
-                                  <tr key={index}>
-                                    {/* Serial Number */}
-                                    <td
-                                      className="serial number"
-                                      data-sort="serial number"
-                                      style={{ fontSize: ".8rem" }}
-                                    >
-                                      
-                                      {index + 1}
-                                    </td>
-
-                                    {/* Policy Number */}
-                                    <td
-                                      className="policy number"
-                                      data-sort="policy number"
-                                      style={{ fontSize: ".8rem" }}
-                                    >
-                                      {policy.policyNumber}
-                                    </td>
-
-                                    {/* Customer Name */}
-                                    <td
-                                      className="client_name"
-                                      style={{ fontSize: ".8rem" }}
-                                    >
-                                      {`${policy.clientName?.firstName || ""} ${
-                                        policy.clientName?.lastName || ""
-                                      }`}
-                                    </td>
-
-                                    {/* Expiry Date */}
-                                    <td
-                                      className="expiry_date"
-                                      style={{ fontSize: ".8rem" }}
-                                    >
-                                      {policy.expiryDate || "N/A"}
-                                    </td>
-
-                                    {/* Remaining days */}
-                                    <td
-                                      className="remaining_days"
-                                      style={{ fontSize: ".8rem" }}
-                                    >
-                                      {calculateDaysLeft(policy.expiryDate)}
-                                    </td>
-
-                                    {/* Document Link */}
-                                    <td style={{ textAlign: "center" }}>
-                                      {policy.policyAttachment ? (
-                                        <a
-                                          href={`http://localhost:8000${policy.policyAttachment}`}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          style={{ textDecoration: "none" }}
-                                          data-bs-toggle="tooltip"
-                                          title={policy.policyAttachment
-                                            .split(/[/\\]/)
-                                            .pop()}
-                                        >
-                                          <i
-                                            className="ri-pushpin-fill"
-                                            style={{
-                                              color: "#405189",
-                                              cursor: "pointer",
-                                              fontSize: "15px",
-                                            }}
-                                          ></i>
-                                        </a>
-                                      ) : (
-                                        "No Attachment"
-                                      )}
-                                    </td>
-
-                                    {/* View Actions */}
-                                    <td>
-                                      <div
-                                        className="d-flex gap-2 justify-content-center"
-                                        style={{
-                                          textAlign: "-webkit-center",
-                                        }}
+                              {filteredData.slice(0, 10).length > 0 ? (
+                                filteredData
+                                  .slice(0, 10)
+                                  .map((policy, index) => (
+                                    <tr key={index}>
+                                      {/* Serial Number */}
+                                      <td
+                                        className="serial number"
+                                        data-sort="serial number"
+                                        style={{ fontSize: ".8rem" }}
                                       >
-                                        {/* View Button */}
-                                        <div className="view">
-                                          <Link
-                                            to="#"
-                                            onClick={() => handleView(policy)}
+                                        {index + 1}
+                                      </td>
+
+                                      {/* Policy Number */}
+                                      <td
+                                        className="policy number"
+                                        data-sort="policy number"
+                                        style={{ fontSize: ".8rem" }}
+                                      >
+                                        {policy.policyNumber}
+                                      </td>
+
+                                      {/* Customer Name */}
+                                      <td
+                                        className="client_name"
+                                        style={{ fontSize: ".8rem" }}
+                                      >
+                                        {`${
+                                          policy.clientName?.firstName || ""
+                                        } ${policy.clientName?.lastName || ""}`}
+                                      </td>
+
+                                      {/* Expiry Date */}
+                                      <td
+                                        className="expiry_date"
+                                        style={{ fontSize: ".8rem" }}
+                                      >
+                                        {policy.expiryDate || "N/A"}
+                                      </td>
+
+                                      {/* Remaining days */}
+                                      <td
+                                        className="remaining_days"
+                                        style={{ fontSize: ".8rem" }}
+                                      >
+                                        {calculateDaysLeft(policy.expiryDate)}
+                                      </td>
+
+                                      {/* Document Link */}
+                                      <td style={{ textAlign: "center" }}>
+                                        {policy.policyAttachment ? (
+                                          <a
+                                            href={`http://localhost:8000${policy.policyAttachment}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             style={{ textDecoration: "none" }}
+                                            data-bs-toggle="tooltip"
+                                            title={policy.policyAttachment
+                                              .split(/[/\\]/)
+                                              .pop()}
                                           >
-                                            <i class="bx bx-show"></i>
-                                          </Link>
+                                            <i
+                                              className="ri-pushpin-fill"
+                                              style={{
+                                                color: "#405189",
+                                                cursor: "pointer",
+                                                fontSize: "15px",
+                                              }}
+                                            ></i>
+                                          </a>
+                                        ) : (
+                                          "No Attachment"
+                                        )}
+                                      </td>
+
+                                      {/* View Actions */}
+                                      <td>
+                                        <div
+                                          className="d-flex gap-2 justify-content-center"
+                                          style={{
+                                            textAlign: "-webkit-center",
+                                          }}
+                                        >
+                                          {/* View Button */}
+                                          <div className="view">
+                                            <Link
+                                              to="#"
+                                              onClick={() => handleView(policy)}
+                                              style={{ textDecoration: "none" }}
+                                            >
+                                              <i class="bx bx-show"></i>
+                                            </Link>
+                                          </div>
+                                          {/* mail button */}
+                                          <div className="view">
+                                            <Link
+                                              // to="/notification"
+                                              // onClick={() =>
+                                              //   handleMenuClick("Notification")
+                                              // }
+                                              style={{ textDecoration: "none" }}
+                                            >
+                                              <i class="ri-mail-line"></i>
+                                            </Link>
+                                          </div>
+                                          {/* whatsapp button */}
+                                          <div className="view">
+                                            <Link
+                                              // to="/notification"
+                                              // onClick={() =>
+                                              //   handleMenuClick("Notification")
+                                              // }
+                                              style={{ textDecoration: "none" }}
+                                            >
+                                              <i class="bx bxl-whatsapp"></i>
+                                            </Link>
+                                          </div>
+                                          {/* text button */}
+                                          <div className="view">
+                                            <Link
+                                              // to="/notification"
+                                              // onClick={() =>
+                                              //   handleMenuClick("Notification")
+                                              // }
+                                              style={{ textDecoration: "none" }}
+                                            >
+                                              <i class="bx bx-text"></i>
+                                            </Link>
+                                          </div>
                                         </div>
-                                        {/* mail button */}
-                                        <div className="view">
-                                          <Link
-                                            // to="/notification"
-                                            // onClick={() =>
-                                            //   handleMenuClick("Notification")
-                                            // }
-                                            style={{ textDecoration: "none" }}
-                                          >
-                                            <i class="ri-mail-line"></i>
-                                          </Link>
-                                        </div>
-                                        {/* whatsapp button */}
-                                        <div className="view">
-                                          <Link
-                                            // to="/notification"
-                                            // onClick={() =>
-                                            //   handleMenuClick("Notification")
-                                            // }
-                                            style={{ textDecoration: "none" }}
-                                          >
-                                            <i class="bx bxl-whatsapp"></i>
-                                          </Link>
-                                        </div>
-                                        {/* text button */}
-                                        <div className="view">
-                                          <Link
-                                            // to="/notification"
-                                            // onClick={() =>
-                                            //   handleMenuClick("Notification")
-                                            // }
-                                            style={{ textDecoration: "none" }}
-                                          >
-                                            <i class="bx bx-text"></i>
-                                          </Link>
-                                        </div>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))
+                                      </td>
+                                    </tr>
+                                  ))
                               ) : (
                                 <tr>
                                   <td colSpan="7">
@@ -789,8 +789,6 @@ export default function Dashboard({ handleMenuClick }) {
           </div>
         </div>
       </div>
-
-      
     </>
   );
 }

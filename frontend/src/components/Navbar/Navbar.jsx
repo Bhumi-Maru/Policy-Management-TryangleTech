@@ -43,7 +43,7 @@ export default function Navbar({
                   style={{
                     color: "#878a99",
                     fontWeight: "bold",
-                    fontSize: "22px",
+                    fontSize: "20px",
                   }}
                   className={
                     isSidebarOpen ? "ri-menu-2-line" : "fa-solid fa-arrow-right"
