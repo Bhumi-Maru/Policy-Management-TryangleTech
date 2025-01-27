@@ -347,6 +347,20 @@ export default function PolicyTable({ handleMenuClick }) {
                                   className="d-flex gap-2 justify-content-center"
                                   style={{ textAlign: "-webkit-center" }}
                                 >
+                                  {/* information icon */}
+                                  <div className="information">
+                                    <i
+                                      className="ri-information-fill"
+                                      style={{
+                                        color: "#405189",
+                                        cursor: "pointer",
+                                        fontSize: "15px",
+                                      }}
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      data-bs-title="user"
+                                    ></i>
+                                  </div>
                                   {/* Edit Button */}
                                   <div className="edit">
                                     <Link

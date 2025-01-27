@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import "./UpdatePolicy.css";
+import Select from "react-select";
 import * as bootstrap from "bootstrap";
 
 export default function UpdatePolicy() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState(0);
   const [errors, setErrors] = useState({});
   const [clients, setClients] = useState([]);
   const [error, setError] = useState(null);
@@ -18,7 +19,7 @@ export default function UpdatePolicy() {
     issueDate: "",
     expiryDate: "",
     policyAmount: "",
-    policyAttachment: "",
+    policyAttachment: null,
   });
   const [policy, setPolicy] = useState([]);
   const [companies, setCompanies] = useState([]);
@@ -54,41 +55,39 @@ export default function UpdatePolicy() {
         throw new Error("Failed to fetch data");
       }
 
-      const policies = await policyRes.json();
-      const clients = await clientRes.json();
-      const companies = await companyRes.json();
-      const mainCategories = await mainCategoryRes.json();
-      const subCategories = await subCategoryRes.json();
-
-      setPolicy(policies);
-      setClients(clients);
-      setCompanies(companies);
-      setMainCategories(mainCategories);
-      setSubCategories(subCategories);
+      setPolicy(await policyRes.json());
+      setClients(await clientRes.json());
+      setCompanies(await companyRes.json());
+      setMainCategories(await mainCategoryRes.json());
+      setSubCategories(await subCategoryRes.json());
     } catch (err) {
       setError(err.message);
     }
   };
   // Options for dropdowns
-  // const clientOptions = clients.map((client) => ({
-  //   value: client._id,
-  //   label: `${client.firstName} ${client.lastName || ""}`.trim(),
-  // }));
+  const clientOptions = clients.map((client) => ({
+    value: client._id,
+    label: `${client.firstName} ${client.lastName || ""}`.trim(),
+  }));
 
-  // const companyOptions = companies.map((company) => ({
-  //   value: company._id,
-  //   label: company.companyName,
-  // }));
+  const companyOptions = companies.map((company) => ({
+    value: company._id,
+    label: company.companyName,
+  }));
 
-  // const mainCategoryOptions = mainCategories.map((category) => ({
-  //   value: category._id,
-  //   label: category.mainCategoryName,
-  // }));
+  const mainCategoryOptions = mainCategories.map((category) => ({
+    value: category._id,
+    label: category.mainCategoryName,
+  }));
 
-  // const subCategoryOptions = subCategories.map((sub) => ({
-  //   value: sub._id,
-  //   label: sub.subCategoryName,
-  // }));
+  const subCategoryOptions = subCategories.map((sub) => ({
+    value: sub._id,
+    label: sub.subCategoryName,
+  }));
+
+  const handleSelectChange = (field, option) => {
+    setFormData({ ...formData, [field]: option ? option.value : null });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -158,11 +157,7 @@ export default function UpdatePolicy() {
       if (response.ok) {
         const updatedPolicy = await response.json();
         if (selectedPolicy) {
-          // setPolicy((prevPolicies) =>
-          //   prevPolicies.map((policy) =>
-          //     policy._id === updatedPolicy._id ? updatedPolicy : policy
-          //   )
-          // );
+          setPolicy(updatedPolicy);
         } else {
           setPolicy((prevPolicies) => [...prevPolicies, updatedPolicy]);
         }
@@ -170,14 +165,10 @@ export default function UpdatePolicy() {
         setSelectedPolicy(null);
         setIsOpenPolicyAttachment(false);
         setFormData({
-          clientName: "",
-          companyName: "",
-          mainCategory: "",
-          subCategory: "",
           issueDate: "",
           expiryDate: "",
           policyAmount: "",
-          policyAttachment: "",
+          policyAttachment: null,
         });
       } else {
         console.error("Failed to save policy:", response.statusText);
@@ -321,48 +312,19 @@ export default function UpdatePolicy() {
                           >
                             Client Name
                           </label>
-                          <input
-                            type="text"
-                            name="clientName"
-                            className="form-control"
-                            value={
-                              policy.clientName
-                                ? `${policy.clientName.firstName || ""} ${
-                                    policy.clientName.lastName || ""
-                                  }`
-                                : ""
+                          <Select
+                            options={clientOptions}
+                            onChange={(option) =>
+                              handleSelectChange("clientName", option)
                             }
-                            onChange={handleInputChange}
+                            value={clientOptions.find(
+                              (option) => option.value === formData.clientName
+                            )}
+                            placeholder="Select a client Name"
                           />
-
                           {errors.clientName && (
                             <small className="text-danger">
                               {errors.clientName}
-                            </small>
-                          )}
-                        </div>
-
-                        {/* Company Name */}
-                        <div className="col-md-3">
-                          <label
-                            style={{ fontSize: "13px", fontWeight: "bold" }}
-                          >
-                            Company Name
-                          </label>
-                          <input
-                            type="text"
-                            name="companyName"
-                            className="form-control"
-                            value={
-                              policy.companyName
-                                ? policy.companyName.companyName
-                                : ""
-                            }
-                            onChange={handleInputChange}
-                          />
-                          {errors.companyName && (
-                            <small className="text-danger">
-                              {errors.companyName}
                             </small>
                           )}
                         </div>
@@ -374,16 +336,15 @@ export default function UpdatePolicy() {
                           >
                             Main Category
                           </label>
-                          <input
-                            type="text"
-                            name="mainCategoryName"
-                            className="form-control"
-                            value={
-                              policy.mainCategory
-                                ? policy.mainCategory.mainCategoryName
-                                : ""
+                          <Select
+                            options={mainCategoryOptions}
+                            onChange={(option) =>
+                              handleSelectChange("mainCategory", option)
                             }
-                            onChange={handleInputChange}
+                            value={mainCategoryOptions.find(
+                              (option) => option.value === formData.mainCategory
+                            )}
+                            placeholder="Select a main category"
                           />
                           {errors.mainCategory && (
                             <small className="text-danger">
@@ -399,16 +360,15 @@ export default function UpdatePolicy() {
                           >
                             Sub Category
                           </label>
-                          <input
-                            type="text"
-                            name="subCategoryName"
-                            className="form-control"
-                            value={
-                              policy.subCategory
-                                ? policy.subCategory.subCategoryName
-                                : ""
+                          <Select
+                            placeholder="Select a sub category"
+                            options={subCategoryOptions}
+                            onChange={(option) =>
+                              handleSelectChange("subCategory", option)
                             }
-                            onChange={handleInputChange}
+                            value={subCategoryOptions.find(
+                              (option) => option.value === formData.subCategory
+                            )}
                           />
 
                           {errors.subCategory && (
@@ -421,7 +381,7 @@ export default function UpdatePolicy() {
                         {/* Submit Button */}
                         <div
                           className="col-md-2 position-relative"
-                          style={{ left: "83%" }}
+                          style={{ top: "32px", left: "82px" }}
                         >
                           <button
                             type="submit"
@@ -453,8 +413,31 @@ export default function UpdatePolicy() {
                       <p className="text-danger">Error: {error}</p>
                     ) : (
                       <>
+                        {/* Company Name */}
+                        <div className="col-md-4">
+                          <label
+                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                          >
+                            Company Name
+                          </label>
+                          <Select
+                            options={companyOptions}
+                            onChange={(option) =>
+                              handleSelectChange("companyName", option)
+                            }
+                            value={companyOptions.find(
+                              (option) => option.value === formData.companyName
+                            )}
+                            placeholder="Select a company"
+                          />
+                          {errors.companyName && (
+                            <small className="text-danger">
+                              {errors.companyName}
+                            </small>
+                          )}
+                        </div>
                         {/* Issue Date */}
-                        <div className="col-md-2">
+                        <div className="col-md-4">
                           <label
                             className="form-label"
                             style={{ fontSize: "13px", fontWeight: "bold" }}
@@ -476,7 +459,7 @@ export default function UpdatePolicy() {
                         </div>
 
                         {/* Expiry Date */}
-                        <div className="col-md-2">
+                        <div className="col-md-4">
                           <label
                             className="form-label"
                             style={{ fontSize: "13px", fontWeight: "bold" }}
@@ -498,7 +481,7 @@ export default function UpdatePolicy() {
                         </div>
 
                         {/* Policy Amount */}
-                        <div className="col-md-3">
+                        <div className="col-md-4">
                           <label
                             className="form-label"
                             style={{ fontSize: "13px", fontWeight: "bold" }}
@@ -520,7 +503,7 @@ export default function UpdatePolicy() {
                         </div>
 
                         {/* Policy Attachment */}
-                        <div className="col-md-3">
+                        <div className="col-md-4">
                           <label
                             className="form-label"
                             style={{ fontSize: "13px", fontWeight: "bold" }}
@@ -589,6 +572,7 @@ export default function UpdatePolicy() {
                             alignItems: "center",
                             justifyContent: "center",
                             gap: "5px",
+                            left: "165px",
                           }}
                         >
                           <button
@@ -596,11 +580,11 @@ export default function UpdatePolicy() {
                             className="btn btn-success add-btn w-100"
                             style={{ fontSize: "13px" }}
                           >
-                            {!selectedPolicy && (
+                            {/* {!selectedPolicy && (
                               <i className="ri-add-line align-bottom me-1"></i>
                             )}
-                            {selectedPolicy ? "Update" : "Add"}
-                            {/* Update */}
+                            {selectedPolicy ? "Update" : "Add"} */}
+                            Update
                           </button>
                         </div>
                       </>
@@ -672,7 +656,6 @@ export default function UpdatePolicy() {
                           >
                             Policy Attachment
                           </th>
-                          {/* action */}
                           <th
                             className="action_sort"
                             data-sort="action"
@@ -705,6 +688,7 @@ export default function UpdatePolicy() {
                           >
                             {policy.issueDate}
                           </td>
+
                           {/* Expiry Date */}
                           <td
                             className="expiry_date"
@@ -712,7 +696,6 @@ export default function UpdatePolicy() {
                           >
                             {policy.expiryDate}
                           </td>
-                          {/* policy amount */}
                           <td
                             className="policy_amount"
                             style={{ fontSize: ".8rem" }}
@@ -724,30 +707,33 @@ export default function UpdatePolicy() {
                             data-column-id="other documents"
                             style={{ textAlign: "center" }}
                           >
-                            <a
-                              href={`http://localhost:8000${policy.policyAttachment}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{ textDecoration: "none" }}
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title={policy.policyAttachment}
-                              data-bs-title={
-                                policy.policyAttachment &&
-                                policy.policyAttachment.split("/")
-                                  ? policy.policyAttachment.split("/").pop()
-                                  : "No Attachment"
-                              }
-                            >
-                              <i
-                                className="ri-pushpin-fill"
-                                style={{
-                                  color: "#405189",
-                                  cursor: "pointer",
-                                  fontSize: "15px",
-                                }}
-                              ></i>
-                            </a>
+                            {policy.policyAttachment ? (
+                              <a
+                                href={`http://localhost:8000${policy.policyAttachment}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ textDecoration: "none" }}
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title={policy.policyAttachment}
+                                data-bs-title={policy.policyAttachment
+                                  .split("/")
+                                  .pop()}
+                              >
+                                <i
+                                  className="ri-pushpin-fill"
+                                  style={{
+                                    color: "#405189",
+                                    cursor: "pointer",
+                                    fontSize: "15px",
+                                  }}
+                                ></i>
+                              </a>
+                            ) : (
+                              <span style={{ color: "red" }}>
+                                No attachment available
+                              </span>
+                            )}
                           </td>
 
                           {/* Edit and Delete Actions */}
