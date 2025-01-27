@@ -74,17 +74,27 @@ export default function UserCreationForm() {
     }
   };
 
+  const userCreationCheckBoxTableData = [
+    { option: "Client" },
+    { option: "Company" },
+    { option: "Main Category" },
+    { option: "Sub Category" },
+    { option: "Policy" },
+    { option: "User" },
+    { option: "Agent" },
+  ];
+
   // Display a success toast message
   const showSuccessToast = (message) => {
     const toastHTML = `
-          <div class="toast fade show position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1055; background-color: white">
-            <div class="toast-header">
-              <img src="assets/images/logo-sm.png" class="rounded me-2" alt="..." height="20" />
-              <strong class="me-auto">Velzon</strong>
+          <div className="toast fade show position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1055; background-color: white">
+            <div className="toast-header">
+              <img src="assets/images/logo-sm.png" className="rounded me-2" alt="..." height="20" />
+              <strong className="me-auto">Velzon</strong>
               <small>Just now</small>
-              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+              <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <div class="toast-body">${message}</div>
+            <div className="toast-body">${message}</div>
           </div>
         `;
 
@@ -114,6 +124,7 @@ export default function UserCreationForm() {
 
   return (
     <div className="container-fluid">
+      {/* user form */}
       <div className="row">
         <div className="col-xxl-6 col-lg-12">
           <div className="card">
@@ -280,6 +291,138 @@ export default function UserCreationForm() {
                     </button>
                   </div>
                 </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* user table */}
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="card">
+            <div className="card-body">
+              <div className="listjs-table" id="customerList">
+                <div className="table-responsive table-card mt-3 mb-1">
+                  <table
+                    className="table align-middle table-nowrap"
+                    id="customerTable"
+                  >
+                    <thead className="table-light">
+                      <tr>
+                        <th
+                          scope="col"
+                          style={{ width: "50px", fontSize: "13px" }}
+                        >
+                          <div className="main-form-check">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              id="checkAll"
+                              value="option"
+                            />
+                          </div>
+                        </th>
+                        <th
+                          style={{ fontSize: "13px", fontWeight: "bold" }}
+                        ></th>
+                        <th style={{ fontSize: "13px", fontWeight: "bold" }}>
+                          View
+                        </th>
+                        <th style={{ fontSize: "13px", fontWeight: "bold" }}>
+                          Add
+                        </th>
+                        <th style={{ fontSize: "13px", fontWeight: "bold" }}>
+                          Update
+                        </th>
+                        <th style={{ fontSize: "13px", fontWeight: "bold" }}>
+                          Delete
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="list form-check-all">
+                      {userCreationCheckBoxTableData.map((data, index) => {
+                        return (
+                          <>
+                            <tr>
+                              <th
+                                scope="row"
+                                style={{ width: "50px", fontSize: "13px" }}
+                              >
+                                <div className="main-form-check">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    name="chk_child"
+                                    value="option1"
+                                  />
+                                </div>
+                              </th>
+                              <td className="id" style={{ display: "none" }}>
+                                <a className="fw-medium link-primary">
+                                  #VZ2101
+                                </a>
+                              </td>
+
+                              <td
+                                className="customer_name"
+                                style={{ fontSize: "13px" }}
+                              >
+                                {data.option}
+                              </td>
+                              <td className="view" style={{ fontSize: "13px" }}>
+                                <div className="form-check">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    name="chk_child"
+                                    value="option1"
+                                  />
+                                </div>
+                              </td>
+                              <td className="add" style={{ fontSize: "13px" }}>
+                                <div className="form-check">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    name="chk_child"
+                                    value="option1"
+                                  />
+                                </div>
+                              </td>
+                              <td
+                                className="update"
+                                style={{ fontSize: "13px" }}
+                              >
+                                <div className="form-check">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    name="chk_child"
+                                    value="option1"
+                                  />
+                                </div>
+                              </td>
+                              <td
+                                className="delete"
+                                style={{ fontSize: "13px" }}
+                              >
+                                <div className="form-check">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    name="chk_child"
+                                    value="option1"
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

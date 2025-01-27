@@ -3,6 +3,9 @@ const Policy = require("../Models/Policy");
 // Add Policy
 const addPolicy = async (req, res) => {
   try {
+    console.log("Received body:", req.body);
+    console.log("Uploaded files:", req.files);
+
     const {
       policyNumber,
       clientName,

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import "./UpdatePolicy.css";
-import Select from "react-select";
 import * as bootstrap from "bootstrap";
 
 export default function UpdatePolicy() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [index, setIndex] = useState(1);
   const [errors, setErrors] = useState({});
   const [clients, setClients] = useState([]);
   const [error, setError] = useState(null);
@@ -30,11 +30,11 @@ export default function UpdatePolicy() {
   // Fetch initial data
   useEffect(() => {
     fetchOptions();
-  }, [id, policy]);
+  }, [selectedPolicy]);
 
   const fetchOptions = async () => {
     try {
-      const policyRes = await fetch("http://localhost:8000/api/policy");
+      const policyRes = await fetch(`http://localhost:8000/api/policy/${id}`);
       const clientRes = await fetch("http://localhost:8000/api/clients");
       const companyRes = await fetch("http://localhost:8000/api/company");
       const mainCategoryRes = await fetch(
@@ -54,39 +54,41 @@ export default function UpdatePolicy() {
         throw new Error("Failed to fetch data");
       }
 
-      setPolicy(await policyRes.json());
-      setClients(await clientRes.json());
-      setCompanies(await companyRes.json());
-      setMainCategories(await mainCategoryRes.json());
-      setSubCategories(await subCategoryRes.json());
+      const policies = await policyRes.json();
+      const clients = await clientRes.json();
+      const companies = await companyRes.json();
+      const mainCategories = await mainCategoryRes.json();
+      const subCategories = await subCategoryRes.json();
+
+      setPolicy(policies);
+      setClients(clients);
+      setCompanies(companies);
+      setMainCategories(mainCategories);
+      setSubCategories(subCategories);
     } catch (err) {
       setError(err.message);
     }
   };
   // Options for dropdowns
-  const clientOptions = clients.map((client) => ({
-    value: client._id,
-    label: `${client.firstName} ${client.lastName || ""}`.trim(),
-  }));
+  // const clientOptions = clients.map((client) => ({
+  //   value: client._id,
+  //   label: `${client.firstName} ${client.lastName || ""}`.trim(),
+  // }));
 
-  const companyOptions = companies.map((company) => ({
-    value: company._id,
-    label: company.companyName,
-  }));
+  // const companyOptions = companies.map((company) => ({
+  //   value: company._id,
+  //   label: company.companyName,
+  // }));
 
-  const mainCategoryOptions = mainCategories.map((category) => ({
-    value: category._id,
-    label: category.mainCategoryName,
-  }));
+  // const mainCategoryOptions = mainCategories.map((category) => ({
+  //   value: category._id,
+  //   label: category.mainCategoryName,
+  // }));
 
-  const subCategoryOptions = subCategories.map((sub) => ({
-    value: sub._id,
-    label: sub.subCategoryName,
-  }));
-
-  const handleSelectChange = (field, option) => {
-    setFormData({ ...formData, [field]: option ? option.value : null });
-  };
+  // const subCategoryOptions = subCategories.map((sub) => ({
+  //   value: sub._id,
+  //   label: sub.subCategoryName,
+  // }));
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -156,11 +158,11 @@ export default function UpdatePolicy() {
       if (response.ok) {
         const updatedPolicy = await response.json();
         if (selectedPolicy) {
-          setPolicy((prevPolicies) =>
-            prevPolicies.map((policy) =>
-              policy._id === updatedPolicy._id ? updatedPolicy : policy
-            )
-          );
+          // setPolicy((prevPolicies) =>
+          //   prevPolicies.map((policy) =>
+          //     policy._id === updatedPolicy._id ? updatedPolicy : policy
+          //   )
+          // );
         } else {
           setPolicy((prevPolicies) => [...prevPolicies, updatedPolicy]);
         }
@@ -319,16 +321,20 @@ export default function UpdatePolicy() {
                           >
                             Client Name
                           </label>
-                          <Select
-                            options={clientOptions}
-                            onChange={(option) =>
-                              handleSelectChange("clientName", option)
+                          <input
+                            type="text"
+                            name="clientName"
+                            className="form-control"
+                            value={
+                              policy.clientName
+                                ? `${policy.clientName.firstName || ""} ${
+                                    policy.clientName.lastName || ""
+                                  }`
+                                : ""
                             }
-                            value={clientOptions.find(
-                              (option) => option.value === formData.clientName
-                            )}
-                            placeholder="Select a client Name"
+                            onChange={handleInputChange}
                           />
+
                           {errors.clientName && (
                             <small className="text-danger">
                               {errors.clientName}
@@ -343,15 +349,16 @@ export default function UpdatePolicy() {
                           >
                             Company Name
                           </label>
-                          <Select
-                            options={companyOptions}
-                            onChange={(option) =>
-                              handleSelectChange("companyName", option)
+                          <input
+                            type="text"
+                            name="companyName"
+                            className="form-control"
+                            value={
+                              policy.companyName
+                                ? policy.companyName.companyName
+                                : ""
                             }
-                            value={companyOptions.find(
-                              (option) => option.value === formData.companyName
-                            )}
-                            placeholder="Select a company"
+                            onChange={handleInputChange}
                           />
                           {errors.companyName && (
                             <small className="text-danger">
@@ -367,15 +374,16 @@ export default function UpdatePolicy() {
                           >
                             Main Category
                           </label>
-                          <Select
-                            options={mainCategoryOptions}
-                            onChange={(option) =>
-                              handleSelectChange("mainCategory", option)
+                          <input
+                            type="text"
+                            name="mainCategoryName"
+                            className="form-control"
+                            value={
+                              policy.mainCategory
+                                ? policy.mainCategory.mainCategoryName
+                                : ""
                             }
-                            value={mainCategoryOptions.find(
-                              (option) => option.value === formData.mainCategory
-                            )}
-                            placeholder="Select a main category"
+                            onChange={handleInputChange}
                           />
                           {errors.mainCategory && (
                             <small className="text-danger">
@@ -391,15 +399,16 @@ export default function UpdatePolicy() {
                           >
                             Sub Category
                           </label>
-                          <Select
-                            placeholder="Select a sub category"
-                            options={subCategoryOptions}
-                            onChange={(option) =>
-                              handleSelectChange("subCategory", option)
+                          <input
+                            type="text"
+                            name="subCategoryName"
+                            className="form-control"
+                            value={
+                              policy.subCategory
+                                ? policy.subCategory.subCategoryName
+                                : ""
                             }
-                            value={subCategoryOptions.find(
-                              (option) => option.value === formData.subCategory
-                            )}
+                            onChange={handleInputChange}
                           />
 
                           {errors.subCategory && (
@@ -587,11 +596,11 @@ export default function UpdatePolicy() {
                             className="btn btn-success add-btn w-100"
                             style={{ fontSize: "13px" }}
                           >
-                            {/* {!selectedPolicy && (
+                            {!selectedPolicy && (
                               <i className="ri-add-line align-bottom me-1"></i>
                             )}
-                            {selectedPolicy ? "Update" : "Add"} */}
-                            Update
+                            {selectedPolicy ? "Update" : "Add"}
+                            {/* Update */}
                           </button>
                         </div>
                       </>
@@ -663,6 +672,7 @@ export default function UpdatePolicy() {
                           >
                             Policy Attachment
                           </th>
+                          {/* action */}
                           <th
                             className="action_sort"
                             data-sort="action"
@@ -677,98 +687,99 @@ export default function UpdatePolicy() {
                         </tr>
                       </thead>
                       <tbody className="list form-check-all">
-                        {policy.length > 0 ? (
-                          policy.map((policy, index) => (
-                            <tr key={index}>
-                              {/* Serial Number */}
-                              <td
-                                className="serial number"
-                                data-sort="serial number"
-                                style={{ fontSize: ".8rem" }}
-                              >
-                                {index + 1}
-                              </td>
-                              {/* Issue Date */}
-                              <td
-                                className="issue_date"
-                                style={{ fontSize: ".8rem" }}
-                              >
-                                {policy.issueDate}
-                              </td>
+                        {/* {policy.length > 0 ? (
+                          policy.map((policy, index) => ( */}
+                        <tr>
+                          {/* Serial Number */}
+                          <td
+                            className="serial number"
+                            data-sort="serial number"
+                            style={{ fontSize: ".8rem" }}
+                          >
+                            {index + 1}
+                          </td>
+                          {/* Issue Date */}
+                          <td
+                            className="issue_date"
+                            style={{ fontSize: ".8rem" }}
+                          >
+                            {policy.issueDate}
+                          </td>
+                          {/* Expiry Date */}
+                          <td
+                            className="expiry_date"
+                            style={{ fontSize: ".8rem" }}
+                          >
+                            {policy.expiryDate}
+                          </td>
+                          {/* policy amount */}
+                          <td
+                            className="policy_amount"
+                            style={{ fontSize: ".8rem" }}
+                          >
+                            &nbsp; &nbsp; &nbsp; {policy.policyAmount}
+                          </td>
+                          {/* Policy Attachment Link */}
+                          <td
+                            data-column-id="other documents"
+                            style={{ textAlign: "center" }}
+                          >
+                            <a
+                              href={`http://localhost:8000${policy.policyAttachment}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ textDecoration: "none" }}
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title={policy.policyAttachment}
+                              data-bs-title={
+                                policy.policyAttachment &&
+                                policy.policyAttachment.split("/")
+                                  ? policy.policyAttachment.split("/").pop()
+                                  : "No Attachment"
+                              }
+                            >
+                              <i
+                                className="ri-pushpin-fill"
+                                style={{
+                                  color: "#405189",
+                                  cursor: "pointer",
+                                  fontSize: "15px",
+                                }}
+                              ></i>
+                            </a>
+                          </td>
 
-                              {/* Expiry Date */}
-                              <td
-                                className="expiry_date"
-                                style={{ fontSize: ".8rem" }}
-                              >
-                                {policy.expiryDate}
-                              </td>
-                              <td
-                                className="policy_amount"
-                                style={{ fontSize: ".8rem" }}
-                              >
-                                &nbsp; &nbsp; &nbsp; {policy.policyAmount}
-                              </td>
-                              {/* Policy Attachment Link */}
-                              <td
-                                data-column-id="other documents"
-                                style={{ textAlign: "center" }}
-                              >
-                                <a
-                                  key={index}
-                                  href={`http://localhost:8000${policy.policyAttachment}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
+                          {/* Edit and Delete Actions */}
+                          <td>
+                            <div
+                              className="d-flex gap-2 justify-content-center"
+                              style={{ textAlign: "-webkit-center" }}
+                            >
+                              {/* Edit Button */}
+                              <div className="edit">
+                                {/* {console.log("Client ID:", policy.id)} */}
+                                <Link
+                                  to={`/policy-update-form/${policy._id}`}
+                                  onClick={() => handleEdit(policy)}
                                   style={{ textDecoration: "none" }}
-                                  data-bs-toggle="tooltip"
-                                  data-bs-placement="top"
-                                  title={policy.policyAttachment
-                                    .split(/[/\\]/)
-                                    .pop()}
-                                  data-bs-title={policy.policyAttachment
-                                    .split("/")
-                                    .pop()}
                                 >
-                                  <i
-                                    className="ri-pushpin-fill"
-                                    style={{
-                                      color: "#405189",
-                                      cursor: "pointer",
-                                      fontSize: "15px",
-                                    }}
-                                  ></i>
-                                </a>
-                              </td>
-                              {/* Edit and Delete Actions */}
-                              <td>
-                                <div
-                                  className="d-flex gap-2 justify-content-center"
-                                  style={{ textAlign: "-webkit-center" }}
+                                  <i className="ri-edit-2-line"></i>
+                                </Link>
+                              </div>
+                              {/* Delete Button */}
+                              <div className="remove">
+                                <Link
+                                  onClick={() => handleDelete(policy)}
+                                  style={{ textDecoration: "none" }}
                                 >
-                                  {/* Edit Button */}
-                                  <div className="edit">
-                                    {/* {console.log("Client ID:", policy.id)} */}
-                                    <Link
-                                      to={`/policy-update-form/${policy._id}`}
-                                      onClick={() => handleEdit(policy)}
-                                      style={{ textDecoration: "none" }}
-                                    >
-                                      <i className="ri-edit-2-line"></i>
-                                    </Link>
-                                  </div>
-                                  {/* Delete Button */}
-                                  <div className="remove">
-                                    <Link
-                                      onClick={() => handleDelete(policy)}
-                                      style={{ textDecoration: "none" }}
-                                    >
-                                      <i className="ri-delete-bin-2-line"></i>
-                                    </Link>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          ))
+                                  <i className="ri-delete-bin-2-line"></i>
+                                </Link>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        {/* ))
                         ) : (
                           <tr>
                             <td colSpan="7">
@@ -806,7 +817,7 @@ export default function UpdatePolicy() {
                               </div>
                             </td>
                           </tr>
-                        )}
+                        )} */}
                       </tbody>
                     </table>
                   </div>

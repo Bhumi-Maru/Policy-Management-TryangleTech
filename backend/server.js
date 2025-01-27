@@ -22,7 +22,8 @@ app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // unified Route
-app.use("/api", unifiedRouter);
+// app.use("/api", unifiedRouter);
+
 //
 
 app.use("/auth", authRouter);
